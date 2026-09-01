@@ -94,3 +94,6 @@ class Hospital:
             if a.appointment_id == appointment_id:
                 return a
         raise ValueError(f"No appointment with id {appointment_id}")
+
+    def get_doctor(self, doctor_id: str) -> Doctor:
+        return self._get_doctor(doctor_id)

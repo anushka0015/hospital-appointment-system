@@ -47,7 +47,7 @@ def register_patient() -> None:
 def add_slot() -> None:
     doctor_id = input("Doctor ID: ").strip()
     slot = input("Slot (e.g. 10:00): ").strip()
-    doctor = hospital._get_doctor(doctor_id)  # reusing internal lookup for now
+    doctor = hospital.get_doctor(doctor_id) 
     doctor.add_available_slot(slot)
     print(f"Slot {slot} added for Dr. {doctor.name}")
 
