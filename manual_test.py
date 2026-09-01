@@ -32,3 +32,10 @@ print("Slots after cancel:", d.available_slots)
 
 appt2 = h.book_appointment("D1", "P2", "10:00")
 print(appt2)
+
+h.add_medical_note("P1", "D1", "Patient reports mild chest discomfort, advised ECG.")
+h.add_medical_note("P1", "D1", "ECG normal, discomfort likely muscular. Advised rest.")
+
+print("\nMedical history for Riya:")
+for entry in p1.medical_history:
+    print(entry)

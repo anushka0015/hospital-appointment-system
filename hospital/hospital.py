@@ -1,3 +1,5 @@
+from hospital import patient
+from hospital import doctor
 from hospital.doctor import Doctor
 from hospital.patient import Patient
 from hospital.appointment import Appointment
@@ -59,6 +61,12 @@ class Hospital:
         appointment.patient.notify(
             f"Your appointment with Dr. {appointment.doctor.name} at {appointment.slot} was cancelled"
         )
+
+    def add_medical_note(self, patient_id: str, doctor_id: str, note: str) -> None:
+        patient = self._get_patient(patient_id)
+        doctor = self._get_doctor(doctor_id)
+        patient.add_medical_record(doctor.name, note)
+        doctor.log_action(f"added medical note for {patient.name}")
 
     # --- Lookups ---
 
