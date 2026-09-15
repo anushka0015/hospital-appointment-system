@@ -1,7 +1,8 @@
 from hospital.doctor import Doctor
-from hospital.db.models import DoctorModel,PatientModel,AppointmentModel
+from hospital.db.models import DoctorModel,PatientModel,AppointmentModel,DoctorSlotModel,MedicalRecordModel
 from hospital.patient import Patient
 from hospital.appointment import Appointment
+from hospital.medical_record import MedicalRecordEntry
 
 def doctor_to_model(doctor: Doctor) -> DoctorModel:
     return DoctorModel(
@@ -59,3 +60,12 @@ def model_to_appointment(model: AppointmentModel, session) -> Appointment:
 
     appointment = Appointment(doctor, patient, model.slot, status=model.status)
     return appointment
+
+
+def medical_record_to_model(patient_id: str, entry: MedicalRecordEntry) -> MedicalRecordModel:
+    return MedicalRecordModel(
+        patient_person_id=patient_id,
+        doctor_name=entry.doctor_name,
+        note=entry.note,
+        created_at=entry.created_at,
+    )

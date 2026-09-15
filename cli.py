@@ -3,8 +3,6 @@ from hospital.doctor import Doctor
 from hospital.patient import Patient
 from hospital.exceptions import HospitalError
 
-# One shared Hospital instance for the whole running session.
-
 hospital = Hospital("City Care Hospital")
 
 
@@ -18,7 +16,8 @@ def print_menu() -> None:
     print("6. View Doctor Schedule")
     print("7. View Patient History")
     print("8. Add Medical Note")
-    print("9. Exit")
+    print("9. View Medical Notes")
+    print("10. Exit")
 
 
 def register_doctor() -> None:
@@ -47,9 +46,8 @@ def register_patient() -> None:
 def add_slot() -> None:
     doctor_id = input("Doctor ID: ").strip()
     slot = input("Slot (e.g. 10:00): ").strip()
-    doctor = hospital.get_doctor(doctor_id) 
-    doctor.add_available_slot(slot)
-    print(f"Slot {slot} added for Dr. {doctor.name}")
+    hospital.add_doctor_slot(doctor_id, slot)
+    print(f"Slot {slot} added for doctor {doctor_id}")
 
 
 def book_appointment() -> None:
@@ -95,7 +93,16 @@ def add_medical_note() -> None:
     print("Medical note added.")
 
 
-# Maps menu choice -> function to run. This avoids a long if/elif chain.
+def view_medical_notes() -> None:
+    patient_id = input("Patient ID: ").strip()
+    notes = hospital.get_patient_medical_notes(patient_id)
+    if not notes:
+        print("No medical notes.")
+        return
+    for note in notes:
+        print(f"[{note.created_at.strftime('%Y-%m-%d %H:%M')}] Dr. {note.doctor_name}: {note.note}")
+
+
 ACTIONS = {
     "1": register_doctor,
     "2": register_patient,
@@ -105,6 +112,7 @@ ACTIONS = {
     "6": view_doctor_schedule,
     "7": view_patient_history,
     "8": add_medical_note,
+    "9": view_medical_notes,
 }
 
 
@@ -113,7 +121,7 @@ def main() -> None:
         print_menu()
         choice = input("Choose an option: ").strip()
 
-        if choice == "9":
+        if choice == "10":
             print("Goodbye!")
             break
 

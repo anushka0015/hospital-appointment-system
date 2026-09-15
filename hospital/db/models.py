@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from datetime import datetime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from hospital.db.database import Base
 
 
@@ -44,6 +45,29 @@ class AppointmentModel(Base):
     def __repr__(self):
         return f"<AppointmentModel(doctor={self.doctor_person_id}, patient={self.patient_person_id}, slot={self.slot})>"
 
+
+class DoctorSlotModel(Base):
+    __tablename__ = "doctor_slots"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    doctor_person_id = Column(String, ForeignKey("doctors.person_id"), nullable=False)
+    slot = Column(String, nullable=False)
+
+    def __repr__(self):
+        return f"<DoctorSlotModel(doctor={self.doctor_person_id}, slot={self.slot})>"
+
+
+class MedicalRecordModel(Base):
+    __tablename__ = "medical_records"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    patient_person_id = Column(String, ForeignKey("patients.person_id"), nullable=False)
+    doctor_name = Column(String, nullable=False)
+    note = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.now, nullable=False)
+
+    def __repr__(self):
+        return f"<MedicalRecordModel(patient={self.patient_person_id}, note={self.note})>"
 
 if __name__ == "__main__":
     from hospital.db.database import engine

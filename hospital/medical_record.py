@@ -1,6 +1,5 @@
 from datetime import datetime
 
-
 class MedicalRecordEntry:
     """
     A single entry in a patient's medical history — e.g. notes from
